@@ -142,7 +142,7 @@ float bacaPersen() {
 
 // Fungsi untuk mengambil status tangki air
 String getStatus(float p) {
-  if (p <= 20) return "Hampir Habis";
+  if (p < 35) return "Hampir Habis";
   else if (p <= 75) return "Normal";
   return "Hampir Penuh";
 }
@@ -182,7 +182,7 @@ String getStatusLed() {
 // Fungsi untuk menangani command dan notifikasi telegram
 void handleTelegram() {
   // Notifikasi otomatis saat air hampir habis
-  if (lastPersen < 20 && !notifHampirHabis) {
+  if (lastPersen < 35 && !notifHampirHabis) {
 
     String msg = "⚠️ PERINGATAN\n";
     msg += "━━━━━━━━━━\n";
@@ -195,7 +195,7 @@ void handleTelegram() {
   }
 
   // Reset state notifikasi habis jika air naik lagi
-  if (lastPersen >= 20) {
+  if (lastPersen > 35) {
     notifHampirHabis = false;
   }
 
@@ -275,7 +275,7 @@ void taskSensorMQTT(void* pv) {
       digitalWrite(LED3, LOW);
       digitalWrite(BUZZER, LOW);
 
-      if (lastPersen < 20) {  // indikator persentase air hampir habis
+      if (lastPersen < 35) {  // indikator persentase air hampir habis
         digitalWrite(LED1, HIGH);
       } else if (lastPersen < 75) {  // // indikator persentase air Normal
         digitalWrite(LED2, HIGH);
